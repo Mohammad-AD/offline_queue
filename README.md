@@ -25,7 +25,7 @@ Add this to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_offline_queue: ^0.1.0
+  flutter_offline_queue: ^1.0.0
 ```
 
 Then run:
@@ -112,7 +112,7 @@ Here is a simple example that queues a POST request:
 await OfflineQueue.instance.post(
   url: 'https://jsonplaceholder.typicode.com/posts',
   headers: {'Content-Type': 'application/json'},
-  body: {'title': 'foo', 'body': 'bar', 'userId': 1},
+  body: {'title': 'Name', 'body': 'Ahmad', 'userId': 1},
 );
 ```
 

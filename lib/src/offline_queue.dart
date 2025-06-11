@@ -15,7 +15,7 @@ class OfflineQueue {
     await _manager.init();
   }
 
-  /// Closes the offline queue manager.
+  /// posts a request to the offline queue.
   Future<void> post({
     required String url,
     Map<String, String>? headers,
@@ -26,14 +26,14 @@ class OfflineQueue {
     );
   }
 
-  ///this is a singleton class that manages offline requests in a queue.0
+  /// this method is used to get a request from the offline queue.
   Future<void> get({required String url, Map<String, String>? headers}) async {
     await _manager.addRequest(
       QueuedRequest(method: 'GET', url: url, headers: headers),
     );
   }
 
-  /// Closes the offline queue manager.
+  /// this method is used to put a request in the offline queue.
   Future<void> put({
     required String url,
     Map<String, String>? headers,
@@ -44,7 +44,7 @@ class OfflineQueue {
     );
   }
 
-  /// Closes the offline queue manager.
+  /// this method is used to delete a request in the offline queue.
   Future<void> delete({
     required String url,
     Map<String, String>? headers,

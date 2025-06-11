@@ -1,9 +1,9 @@
-/// A Flutter package for managing offline queues with persistence and synchronization capabilities.
+/// Class representing a queued HTTP request.
 class QueuedRequest {
-  /// HTTP method for the request (e.g., GET, POST).
+  /// String representing the HTTP method for the request.
   final String method;
 
-  /// HTTP method for the request (e.g., GET, POST).
+  /// String representing the URL for the request.
   final String url;
 
   /// Optional headers for the request.
@@ -22,17 +22,17 @@ class QueuedRequest {
 
   /// To JSON representation of the request.
   Map<String, dynamic> toJson() => {
-    'method': method,
-    'url': url,
-    'headers': headers,
-    'body': body,
-  };
+        'method': method,
+        'url': url,
+        'headers': headers,
+        'body': body,
+      };
 
   /// Factory constructor to create a QueuedRequest from JSON.
   factory QueuedRequest.fromJson(Map<String, dynamic> json) => QueuedRequest(
-    method: json['method'],
-    url: json['url'],
-    headers: Map<String, String>.from(json['headers'] ?? {}),
-    body: Map<String, dynamic>.from(json['body'] ?? {}),
-  );
+        method: json['method'],
+        url: json['url'],
+        headers: Map<String, String>.from(json['headers'] ?? {}),
+        body: Map<String, dynamic>.from(json['body'] ?? {}),
+      );
 }

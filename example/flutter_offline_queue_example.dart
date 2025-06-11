@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_offline_queue/src/offline_queue.dart';
 
 Future<void> main() async {
+  // Ensure that the Flutter engine is initialized before using any Flutter features
   WidgetsFlutterBinding.ensureInitialized();
+  // Initialize the OfflineQueue instance
   await OfflineQueue.instance.init();
   runApp(const MyApp());
 }
@@ -36,12 +38,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    // Set up the queue to handle requests
     queue.onRequestRetried = (request) {
       if (kDebugMode) {
         print('Request retried: ${request.method} ${request.url}');
       }
     };
-
+    // Set up the queue to handle failed requests
     queue.onRequestFailed = (request, error) {
       if (kDebugMode) {
         print(
@@ -52,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _sendPostRequest() async {
+    // Post a request to the queue
     await queue.post(
       url: 'https://jsonplaceholder.typicode.com/posts',
       headers: {'Content-Type': 'application/json'},
@@ -68,7 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _sendGetRequest() async {
+    // Get a request from the queue
     await queue.get(url: 'https://jsonplaceholder.typicode.com/posts/1');
+    // Show a snackbar to indicate the request was queued or sent
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(const SnackBar(content: Text('Get request queued or sent')));
@@ -83,11 +89,13 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ElevatedButton(
+              // Button to send a POST request
               onPressed: _sendPostRequest,
               child: const Text('Send POST request'),
             ),
             const SizedBox(height: 16),
             ElevatedButton(
+              // Button to send a GET request
               onPressed: _sendGetRequest,
               child: const Text('Send GET request'),
             ),

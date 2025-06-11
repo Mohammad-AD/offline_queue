@@ -7,7 +7,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'request_model.dart';
 
-//// A class that manages offline requests in a queue.
+//// A class that manages a queue of requests to be sent when the device is online.
 class QueueManager {
   Database? _db;
   bool _isOnline = true;
@@ -15,10 +15,10 @@ class QueueManager {
   /// A callback that is called when a request is retried successfully.
   void Function(QueuedRequest request)? onRequestRetried;
 
-  /// A callback that is called when a request is retried successfully.
+  /// A callback that is called when a request is failed.
   void Function(QueuedRequest request, dynamic error)? onRequestFailed;
 
-  /// A callback that is called when a request fails to retry.
+  /// initializes the queue manager, setting up the database and connectivity listener.
   Future<void> init() async {
     await _initDb();
     _listenToConnectivity();

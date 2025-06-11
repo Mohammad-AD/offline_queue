@@ -112,7 +112,11 @@ Here is a simple example that queues a POST request:
 await OfflineQueue.instance.post(
   url: 'https://jsonplaceholder.typicode.com/posts',
   headers: {'Content-Type': 'application/json'},
-  body: {'title': 'Name', 'body': 'Ahmad', 'userId': 1},
+  body: {
+  'title': 'Test Post',
+  'body': {'content': 'This is a test post', 'author': 'Mohammad'},
+  'userId': 1,
+  },
 );
 ```
 

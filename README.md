@@ -1,6 +1,7 @@
 # flutter_offline_queue
 
-![Pub Version](https://img.shields.io/pub/v/offline_queue)
+![Pub Version](https://img.shields.io/pub/v/flutter_offline_queue)
+![Publisher](https://img.shields.io/pub/publisher/flutter_offline_queue)
 ![License](https://img.shields.io/github/license/Mohammad-AD/offline_queue)
 
 A Flutter/Dart package to queue API requests when offline and automatically retry them when the device goes back online.

@@ -12,7 +12,7 @@ class QueueManager {
   Database? _db;
   bool _isOnline = true;
 
-  /// A singleton instance of [QueueManager].
+  /// A callback that is called when a request is retried successfully.
   void Function(QueuedRequest request)? onRequestRetried;
 
   /// A callback that is called when a request is retried successfully.
@@ -53,7 +53,7 @@ class QueueManager {
     });
   }
 
-  ///
+  /// Adds a request to the queue.
   Future<void> addRequest(QueuedRequest request) async {
     if (_isOnline) {
       try {

@@ -1,0 +1,17 @@
+name: flutter_offline_queue
+description: flutter_offline_queue is a Flutter/Dart package to queue API requests offline and retry when online.
+version: 1.0.0
+repository: https://github.com/Mohammad-AD/offline_queue.git
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  http: ^0.13.6
+  connectivity_plus: ^4.0.0
+  sqflite: ^2.2.0
+  path: ^1.8.3
+
+dev_dependencies:
+  lints: ^5.0.0
+  test: ^1.24.0

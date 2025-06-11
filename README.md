@@ -3,8 +3,26 @@
 ![Pub Version](https://img.shields.io/pub/v/flutter_offline_queue)
 ![Publisher](https://img.shields.io/pub/publisher/flutter_offline_queue)
 ![License](https://img.shields.io/github/license/Mohammad-AD/offline_queue)
+![Dart](https://img.shields.io/badge/Dart-%3E=3.2.0-blue)
+![Flutter](https://img.shields.io/badge/Flutter-%3E=3.13.0-blue)
 
-A Flutter/Dart package to queue API requests when offline and automatically retry them when the device goes back online.
+A reliable Flutter package to ensure your app handles offline API requests gracefully.  
+It queues failed HTTP calls and retries them once connectivity is restored — ideal for unstable network environments.
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Usage](#usage)
+- [Callbacks](#callbacks)
+- [Supported Methods](#supported-methods)
+- [Limitations & Notes](#limitations--notes)
+- [Example](#example)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
 ---
 
@@ -26,7 +44,7 @@ Add this to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_offline_queue: ^1.0.0
+  flutter_offline_queue: ^1.0.1
 ```
 
 Then run:
@@ -37,7 +55,7 @@ flutter pub get
 
 ---
 
-### Usage
+## Usage
 
 Import the package:
 
@@ -55,7 +73,7 @@ void main() async {
 }
 ```
 
-Add requests like this:
+Queue requests like this:
 
 ```dart
 // POST request example
@@ -71,9 +89,9 @@ await OfflineQueue.instance.get(url: 'https://your-api.com/items');
 
 ---
 
-### Callbacks
+## Callbacks
 
-You can set callbacks in initState to listen for retried requests:
+You can set callbacks to listen for retried or failed requests:
 
 ```dart
 OfflineQueue.instance.onRequestRetried = (request) {
@@ -98,9 +116,9 @@ OfflineQueue.instance.onRequestFailed = (request, error) {
 
 ## Limitations & Notes
 
-- Only basic JSON request bodies are supported.
+- Currently supports basic JSON-encoded request bodies.
 - Headers should be provided as a `Map<String, String>`.
-- Make sure your API supports idempotent operations or handle duplicates accordingly.
+- Ensure your API supports idempotent operations or handles duplicates appropriately.
 - The package depends on `connectivity_plus`, `http`, `sqflite`, and `path`.
 
 ---
@@ -114,9 +132,10 @@ await OfflineQueue.instance.post(
   url: 'https://jsonplaceholder.typicode.com/posts',
   headers: {'Content-Type': 'application/json'},
   body: {
-  'title': 'Test Post',
-  'body': {'content': 'This is a test post', 'author': 'Mohammad'},
-  'userId': 1,
+    'title': 'Test Post',
+    'content': 'This is a test post',
+    'author': 'Mohammad',
+    'userId': 1,
   },
 );
 ```
@@ -137,5 +156,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-Created by Mohammad AD — feel free to reach out!
-bummycakes.com - DCP
+Created by **Mohammad AD** — feel free to reach out!  
+[bummycakes.com](https://bummycakes.com)

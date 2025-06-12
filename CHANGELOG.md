@@ -18,6 +18,6 @@
 - Added support for new API endpoints.
 - Fixed a bug that caused issues with the connectivity.
 
-## 1.0.3
+## 1.0.4
 - Improved performance of the data processing module.
 - Added support for dio 5.0.0+

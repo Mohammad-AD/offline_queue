@@ -44,7 +44,7 @@ Add this to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_offline_queue: ^1.0.3
+  flutter_offline_queue: ^1.0.4
 ```
 
 Then run:

@@ -1,24 +1,32 @@
 import 'dart:convert';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_offline_queue/src/queue_enum.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'request_model.dart';
 
-//// A class that manages a queue of requests to be sent when the device is online.
+/// Class that manages a queue of HTTP requests to be sent when the device is online.
 class QueueManager {
   Database? _db;
   bool _isOnline = true;
 
-  /// A callback that is called when a request is retried successfully.
+  /// Whether to use Dio for HTTP requests. If false, uses the http package.
+  final RequestType clientType;
+
+  /// Creates a [QueueManager] instance.
+  QueueManager({this.clientType = RequestType.http});
+
+  /// Callback functions for request events.
   void Function(QueuedRequest request)? onRequestRetried;
 
-  /// A callback that is called when a request is failed.
+  /// Callback function for when a request fails after retrying.
   void Function(QueuedRequest request, dynamic error)? onRequestFailed;
 
-  /// initializes the queue manager, setting up the database and connectivity listener.
+  /// Initializes the queue manager, setting up the database and connectivity listener.
   Future<void> init() async {
     await _initDb();
     _listenToConnectivity();
@@ -53,7 +61,7 @@ class QueueManager {
     });
   }
 
-  /// Adds a request to the queue.
+  /// Adds a request to the queue. If online, it attempts to send the request immediately.
   Future<void> addRequest(QueuedRequest request) async {
     if (_isOnline) {
       try {
@@ -100,38 +108,73 @@ class QueueManager {
 
   Future<void> _sendRequest(QueuedRequest request) async {
     final uri = Uri.parse(request.url);
-    late http.Response response;
 
-    switch (request.method.toUpperCase()) {
-      case 'POST':
-        response = await http.post(
-          uri,
-          headers: request.headers,
-          body: jsonEncode(request.body),
-        );
-        break;
-      case 'GET':
-        response = await http.get(uri, headers: request.headers);
-        break;
-      case 'PUT':
-        response = await http.put(
-          uri,
-          headers: request.headers,
-          body: jsonEncode(request.body),
-        );
-        break;
-      case 'DELETE':
-        response = await http.delete(uri, headers: request.headers);
-        break;
-      default:
-        throw UnimplementedError('${request.method} not supported');
-    }
+    if (clientType == RequestType.dio) {
+      final dio = Dio();
+      final options =
+          Options(headers: request.headers, responseType: ResponseType.json);
 
-    if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw http.ClientException(
-        'HTTP error: ${response.statusCode} - ${response.reasonPhrase}',
-        uri,
-      );
+      Response response;
+      switch (request.method.toUpperCase()) {
+        case 'POST':
+          response =
+              await dio.post(request.url, data: request.body, options: options);
+          break;
+        case 'GET':
+          response = await dio.get(request.url, options: options);
+          break;
+        case 'PUT':
+          response =
+              await dio.put(request.url, data: request.body, options: options);
+          break;
+        case 'DELETE':
+          response = await dio.delete(request.url, options: options);
+          break;
+        default:
+          throw UnimplementedError('${request.method} not supported with Dio');
+      }
+
+      if (response.statusCode! < 200 || response.statusCode! >= 300) {
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: 'HTTP error: ${response.statusCode}',
+          type: DioExceptionType.badResponse,
+        );
+      }
+    } else {
+      late http.Response response;
+      switch (request.method.toUpperCase()) {
+        case 'POST':
+          response = await http.post(
+            uri,
+            headers: request.headers,
+            body: jsonEncode(request.body),
+          );
+          break;
+        case 'GET':
+          response = await http.get(uri, headers: request.headers);
+          break;
+        case 'PUT':
+          response = await http.put(
+            uri,
+            headers: request.headers,
+            body: jsonEncode(request.body),
+          );
+          break;
+        case 'DELETE':
+          response = await http.delete(uri, headers: request.headers);
+          break;
+        default:
+          throw UnimplementedError('${request.method} not supported');
+      }
+
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        throw http.ClientException(
+          'HTTP error: ${response.statusCode} - ${response.reasonPhrase}',
+          uri,
+        );
+      }
     }
   }
 }

@@ -1,3 +1,5 @@
+import 'package:flutter_offline_queue/src/queue_enum.dart';
+
 import 'queue_manager.dart';
 import 'request_model.dart';
 
@@ -8,10 +10,11 @@ class OfflineQueue {
 
   OfflineQueue._();
 
-  final QueueManager _manager = QueueManager();
+  late final QueueManager _manager;
 
   /// Initializes the offline queue manager.
-  Future<void> init() async {
+  Future<void> init({RequestType clientType = RequestType.http}) async {
+    _manager = QueueManager(clientType: clientType);
     await _manager.init();
   }
 

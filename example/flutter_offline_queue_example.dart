@@ -1,12 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_offline_queue/src/offline_queue.dart';
+import 'package:flutter_offline_queue/src/queue_enum.dart';
 
 Future<void> main() async {
-  // Ensure that the Flutter engine is initialized before using any Flutter features
+  /// Ensure that the Flutter engine is initialized before using any Flutter features
   WidgetsFlutterBinding.ensureInitialized();
-  // Initialize the OfflineQueue instance
-  await OfflineQueue.instance.init();
+
+  /// Here is the enum for RequestType, which can be used to specify the type of client
+  /// enum RequestType {
+  //   http,
+  //   dio
+  // }
+
+  /// Initialize the OfflineQueue instance with the desired client type
+  await OfflineQueue.instance.init(clientType: RequestType.dio);
   runApp(const MyApp());
 }
 

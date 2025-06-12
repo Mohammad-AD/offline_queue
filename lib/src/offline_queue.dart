@@ -1,5 +1,4 @@
-import 'package:flutter_offline_queue/src/queue_enum.dart';
-
+import 'queue_enum.dart';
 import 'queue_manager.dart';
 import 'request_model.dart';
 

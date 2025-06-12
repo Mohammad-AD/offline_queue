@@ -68,7 +68,7 @@ Initialize the queue early in your app (e.g., in `main()`):
 ```dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await OfflineQueue.instance.init();
+  await OfflineQueue.instance.init(clientType: ClientType.http);
   runApp(MyApp());
 }
 ```
